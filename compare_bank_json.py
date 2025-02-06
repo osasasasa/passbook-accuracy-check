@@ -1,6 +1,36 @@
 import json
 
+def check_line_counts(ocr_file_path, correct_file_path):
+    # ファイルの行数を取得
+    with open(ocr_file_path, 'r', encoding='utf-8') as ocr_file:
+        ocr_lines = ocr_file.readlines()
+    
+    with open(correct_file_path, 'r', encoding='utf-8') as correct_file:
+        correct_lines = correct_file.readlines()
+
+    # 行数を取得
+    ocr_line_count = len(ocr_lines)
+    correct_line_count = len(correct_lines)
+
+    # 結果を辞書で返す
+    result = {
+        "ocr_line_count": ocr_line_count,
+        "correct_line_count": correct_line_count,
+        "line_count_match": ocr_line_count == correct_line_count
+    }
+
+    return result
+
+
 def compare_json_files(ocr_file: str, correct_file: str, output_file: str) -> None:
+    # 行数チェックの結果を取得
+    line_count_result = check_line_counts(ocr_file, correct_file)
+
+    if line_count_result['line_count_match']:
+        print("✅ 行数が一致しています。")
+    else:
+        print("⚠️ 行数が一致しません！")
+
     with open(ocr_file, 'r', encoding='utf-8') as f:
         ocr_data = json.load(f)
     
@@ -62,6 +92,8 @@ def compare_json_files(ocr_file: str, correct_file: str, output_file: str) -> No
 
     result = {
         "total_entries": total_entries,
+        "ocr_line_count": line_count_result['ocr_line_count'],
+        "correct_line_count":line_count_result['correct_line_count'],
         "total_correct": total_correct,
         "total_errors": total_errors,
         "total_accuracy": total_accuracy,
