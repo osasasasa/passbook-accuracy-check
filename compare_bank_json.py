@@ -65,8 +65,8 @@ def compare_json_files(ocr_file: str, correct_file: str, output_file: str) -> No
         "total_correct": total_correct,
         "total_errors": total_errors,
         "total_accuracy": total_accuracy,
-        "field_accuracies": field_accuracies,
         "average_accuracy_excluding_description": average_accuracy_excluding_description,
+        "field_accuracies": field_accuracies,
         "discrepancies": discrepancies
     }
 
